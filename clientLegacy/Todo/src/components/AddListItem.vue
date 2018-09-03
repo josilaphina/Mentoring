@@ -1,33 +1,45 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    
     
   </div>
 </template>
 
 <script>
+import ListItem from './ListItem'
 
-import axios from 'axios'
 
 
 export default {
   name: 'HelloWorld',
   mounted: function (){
-    axios.get('localhost:3000/lists', {
+
+    let self = this
+
+    this.$axios.get('http://localhost:3000/lists', {
       crossdomain: true
     })
       .then(function (response) {
         // handle success
-        console.log(response);
+        self.loaded = true
+        self.listItems = response.data.results
+
       })
       .catch(function (error) {
         // handle error
-        console.log(error);
+        //console.log(error);
       })
+  },
+  data () {
+    return {
+    listItems: null,
+    loaded: false
+    }
   },
   props: {
     msg: String
+  },
+  components: {
+    ListItem
   }
 }
 </script>
@@ -43,7 +55,7 @@ ul {
 }
 li {
   display: inline-block;
-  margin: 0 10px;
+  margin: 10px;
 }
 a {
   color: #42b983;
