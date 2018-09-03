@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const listRouter = require('./route/ListRoutes')()
+const bodyParser = require('body-parser')
+const listRouter = require('./route/ListItemRoutes')()
 
 
 mongoose.Promise = global.Promise
@@ -22,6 +23,9 @@ db = mongoose.connect('mongodb://localhost/listdb')
 
 
 const app = express()
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended:true}))
 
 app.use('/lists', listRouter)
 
